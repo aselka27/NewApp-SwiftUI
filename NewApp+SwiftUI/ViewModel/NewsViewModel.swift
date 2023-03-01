@@ -10,6 +10,7 @@ import Combine
 
 protocol NewsViewModelProtocol {
     func getArticles()
+    var isLoading: Bool { get }
 }
 
 class NewsViewModel: ObservableObject, NewsViewModelProtocol {
@@ -18,6 +19,9 @@ class NewsViewModel: ObservableObject, NewsViewModelProtocol {
     private(set) var articles = [Article]()
     private var cancellables = Set<AnyCancellable>()
    @Published private(set) var state: ResultState = .loading
+    var isLoading: Bool {
+        self.state == .loading
+    }
     
     init(service: NewsService) {
         self.service = service

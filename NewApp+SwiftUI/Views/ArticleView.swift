@@ -9,7 +9,11 @@ import SwiftUI
 import URLImage
 
 struct ArticleView: View {
+    
+    @State var isLoading: Bool
     let article: Article
+    
+    
     var body: some View {
         HStack {
             if let imgUrl = article.image,
@@ -30,11 +34,15 @@ struct ArticleView: View {
                 Text(article.title ?? "")
                     .foregroundColor(.black)
                     .font(.system(size: 18, weight: .semibold))
+                    .unredacted()
                 Text(article.source ?? "N/A")
                     .foregroundColor(.gray)
                     .font(.footnote)
             }
         }
+        .redacted(reason: isLoading ? .placeholder : [])
+        .allowsHitTesting(!isLoading)
+        
         
     }
 }

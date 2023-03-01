@@ -13,24 +13,23 @@ struct HomeView: View {
     @StateObject var viewModel = NewsViewModel(service: NewsServiceImpl())
     
     var body: some View {
-        Group {
-            switch viewModel.state {
-            case .loading:
-                ProgressView()
-            case .failed(error: let error):
-                ErrorView(error: error, handler: viewModel.getArticles)
-            case .success(content: let articles):
-                NavigationView {
-                    List(articles) { article in
-                        ArticleView(article: article)
+        NavigationView {
+            Group {
+                switch viewModel.state {
+                case .failed(error: let error):
+                    ErrorView(error: error, handler: viewModel.getArticles)
+                default:
+                    List(viewModel.isLoading ? Article.dummyData : viewModel.articles) { article in
+                        ArticleView(isLoading: viewModel.isLoading, article: article)
                             .onTapGesture {
                                 load(url: article.url)
                             }
                     }
-                    .navigationTitle(Text("News"))
+                    .navigationTitle("News")
                 }
             }
-        } .onAppear(perform: viewModel.getArticles)
+            .onAppear(perform: viewModel.getArticles)
+        }
     }
     
     func load(url: String?) {

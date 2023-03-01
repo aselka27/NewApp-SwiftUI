@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ErrorView: View {
-  
+    
     typealias ErrorViewActionHandle = () -> Void
     let error: Error
     let handler: ErrorViewActionHandle
@@ -17,7 +17,6 @@ struct ErrorView: View {
         self.error = error
         self.handler = handler
     }
-    
 
     
     var body: some View {
@@ -40,12 +39,19 @@ struct ErrorView: View {
             }
             .padding(.vertical, 12)
             .padding(.horizontal, 30)
-            .backgroundStyle(Color.blue)
+            .background(Color.blue)
             .foregroundColor(.white)
             .font(.system(size: 15, weight: .heavy))
             .cornerRadius(10)
+            .clipShape(Capsule())
 
         }
     }
 }
+
+//struct ErrorView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ErrorView(handler: {})
+//    }
+//}
 
